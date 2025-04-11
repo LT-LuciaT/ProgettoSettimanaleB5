@@ -22,12 +22,11 @@ public class PrenotazioneService {
     }
 
     private void validaPrenotazione(Prenotazione prenotazione) throws PrenotazioneException {
-        // Verifica se la data è nel passato
+
         if (prenotazione.getDataPrenotazione().isBefore(LocalDate.now())) {
             throw new PrenotazioneException("Non è possibile prenotare per date passate");
         }
 
-        // Verifica se la postazione è già prenotata
         boolean postazioneOccupata = prenotazioneRepository
                 .existsByPostazioneAndDataPrenotazione(
                         prenotazione.getPostazione(),
@@ -37,7 +36,6 @@ public class PrenotazioneService {
             throw new PrenotazioneException("Postazione già prenotata per questa data");
         }
 
-        // Verifica se l'utente ha già una prenotazione per quella data
         boolean utenteOccupato = prenotazioneRepository
                 .existsByUtenteAndDataPrenotazione(
                         prenotazione.getUtente(),
